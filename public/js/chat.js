@@ -70,7 +70,7 @@ sendLocationButton.addEventListener('click', e => {
 			'SendLocation',
 			{
 				latitude: position.coords.latitude,
-				longitude: position.coords.latitude
+				longitude: position.coords.longitude
 			},
 			ack => sendLocationButton.removeAttribute('disabled')
 		);
