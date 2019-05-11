@@ -14,7 +14,7 @@ const express = require('express'),
 const app = express(),
 	server = http.createServer(app),
 	io = socketio(server),
-	port = process.env.PORT,
+	port = process.env.PORT || 3000,
 	publicDirectoryPath = path.join(__dirname, '../public');
 
 app.use(express.static(publicDirectoryPath));
@@ -44,9 +44,6 @@ io.on('connection', socket => {
 
 	socket.on('sendMsg', (message, callback) => {
 		const user = getUser(socket.id);
-		console.log(user.room);
-		console.log(message);
-
 		const filter = new Filter();
 		if (filter.isProfane(message)) {
 			return callback('Language!!');

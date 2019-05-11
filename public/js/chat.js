@@ -36,7 +36,6 @@ const autoscroll = () => {
 };
 
 socket.on('message', message => {
-	console.log(message.text);
 	const html = Mustache.render(messageTemplate, {
 		username: message.username,
 		message: message.text,
@@ -56,7 +55,6 @@ sendButton.addEventListener('click', e => {
 		if (error) {
 			return console.log(error);
 		}
-		console.log('Message Delivered!', msg);
 	});
 });
 
@@ -66,6 +64,7 @@ sendLocationButton.addEventListener('click', e => {
 	if (!navigator.geolocation) {
 		return alert('Browser does not support geolocation');
 	}
+	navigator.geolocation.getCurrentPosition(function() {}, function() {}, {});
 	navigator.geolocation.getCurrentPosition(position => {
 		socket.emit(
 			'SendLocation',
@@ -73,10 +72,7 @@ sendLocationButton.addEventListener('click', e => {
 				latitude: position.coords.latitude,
 				longitude: position.coords.latitude
 			},
-			ack => {
-				sendLocationButton.removeAttribute('disabled');
-				console.log(ack);
-			}
+			ack => sendLocationButton.removeAttribute('disabled')
 		);
 	});
 });
